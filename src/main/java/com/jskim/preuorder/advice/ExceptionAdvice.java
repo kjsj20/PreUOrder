@@ -1,5 +1,6 @@
 package com.jskim.preuorder.advice;
 
+import com.jskim.preuorder.advice.exception.CEmailSigninFailedException;
 import com.jskim.preuorder.advice.exception.CUserNotFoundException;
 import com.jskim.preuorder.model.response.CommonResult;
 import com.jskim.preuorder.service.ResponseService;
@@ -38,6 +39,12 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected CommonResult userNotFoundException(HttpServletRequest request, CUserNotFoundException e) {
         return responseService.getFailResult(Integer.valueOf(getMessage("userNotFound.code")), getMessage("userNotFound.msg"));
+    }
+
+    @ExceptionHandler(CEmailSigninFailedException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResult emailSigninFailed(HttpServletRequest request, CEmailSigninFailedException e) {
+        return responseService.getFailResult(Integer.valueOf(getMessage("emailSigninFailed.code")), getMessage("emailSigninFailed.msg"));
     }
 
     // code 정보에 해당하는 메시지를 조회한다.
